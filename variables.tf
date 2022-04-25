@@ -1,3 +1,5 @@
+# general variables 
+
 variable "aws_profile" {
   type                    = string
   default                 = "default"
@@ -26,6 +28,8 @@ variable "app_shortcode" {
   description             = "Specify a short-code or pneumonic for this application or project"
 }
 
+# docdb variables 
+
 variable "docdb_vpc_id" {
   type                    = string
   description             = "Specify a VPC ID where DocumentDB and NLB resources will be created"
@@ -46,6 +50,26 @@ variable "docdb_master_user" {
   type                    = string 
   description             = "Specify a username to be used as master user for DocumentDB cluster"
 }
+
+variable "lambda_name" {
+  type                    = string 
+  default                 = "MonitorIPChange"
+  description             = "Specify a name to be used for Lambda function"
+}
+
+variable "lambda_in_docdb_vpc" {
+  type                    = bool
+  default                 = false
+  description             = "Specify whether Lambda should be connected to DocumentDB vpc"
+}
+
+variable "lambda_schedule_expression" {
+  type                    = string
+  default                 = "cron(0/5 * * * ? *)" # schedules at 8am UTC on Jan 1st every year
+  description             = "Specify a valid CloudWatch Event or EventBridge schedule expression"
+}
+
+# app variables - for testing documentdb
 
 variable "app_vpc_id" {
   type                    = string

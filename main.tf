@@ -31,5 +31,6 @@ locals {
   }
 
   account_id              = data.aws_caller_identity.current.account_id
+  docdb_ip_param_name     = "/${var.app_shortcode}/${var.aws_env}/lambda/${var.lambda_name}/docdb_saved_ip_address"
 }
 

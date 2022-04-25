@@ -1,4 +1,4 @@
-# create an nlb in front of documentdb cluster
+# Create an NLB in front of documentdb cluster
 
 resource "aws_lb" "nlb" {
   name                    = "${var.app_shortcode}-docdb-nlb"
@@ -30,19 +30,9 @@ resource "aws_lb_target_group" "nlb_tg" {
   vpc_id                  = data.aws_vpc.docdb.id
 }
 
-data "dns_a_record_set" "docdb_dns_record" {
-  host                    = aws_docdb_cluster.docdb_cluster.endpoint
-}
-
-resource "aws_lb_target_group_attachment" "nlb_tg_targets" {
-  target_group_arn        = aws_lb_target_group.nlb_tg.arn
-  target_id               = data.dns_a_record_set.docdb_dns_record.addrs[0]
-}
-
 resource "aws_vpc_endpoint_service" "nlb_vpces" {
   acceptance_required        = false
   network_load_balancer_arns = [ aws_lb.nlb.arn ]
 
   tags                    = local.common_tags
 }
-
